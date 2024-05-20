@@ -1,6 +1,23 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import { logout } from "../redux/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const DropDownMenu = () => {
+
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClickLogout = () => {
+    dispatch(logout())
+    .unwrap()
+    .then((payload) => {
+        navigate(`/`);
+    })
+    .catch((error) => {})
+  };
+  
   return (
     <div class="relative inline-block">
       <div class="absolute right-0 z-20 w-56 py-2 mt-8 overflow-hidden origin-top-right bg-white rounded-md shadow-xl dark:bg-gray-800">
@@ -10,15 +27,15 @@ const DropDownMenu = () => {
         >
           <img
             class="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9"
-            src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-            alt="john doe"
+            src={user.image}
+            alt={user.user_name}
           />
           <div class="mx-1 text-start">
             <h1 class="text-sm font-semibold text-gray-700 dark:text-gray-200">
-              John Doe
+              {user.user_name}
             </h1>
             <p class="text-sm text-gray-500 dark:text-gray-400">
-              +971566964316
+              +971{user.phone_number}
             </p>
           </div>
         </a>
@@ -106,8 +123,8 @@ const DropDownMenu = () => {
 
         <hr class="border-gray-200" />
 
-        <a
-          href="#"
+        <button
+          onClick={handleClickLogout}
           class="flex items-center p-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
         >
           <svg
@@ -123,7 +140,7 @@ const DropDownMenu = () => {
           </svg>
 
           <span class="mx-1">Sign Out</span>
-        </a>
+        </button>
       </div>
     </div>
   );

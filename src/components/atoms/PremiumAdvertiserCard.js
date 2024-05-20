@@ -3,7 +3,7 @@ import placeholder from '../../images/placeholder.jpg';
 
 function PremiumAdvertiserCard({ id, premiumAdvertiser }) {
     return (
-      <Link to="/company-profile" className="border-2 border-gray-200 rounded-md px-6 py-2 bg-white hover:bg-gray-200 cursor-pointer">
+      <Link to={`/company-profile/${premiumAdvertiser.id}`} className="border-2 border-gray-200 rounded-md px-6 py-2 bg-white hover:bg-gray-200 cursor-pointer">
       <div class="flex items-center gap-x-6">
         <img
           class="h-16 w-16 rounded-full"

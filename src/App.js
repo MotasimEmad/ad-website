@@ -29,7 +29,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/ad/:id" element={<AdDetailsPage />} />
           <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/company-profile" element={<CompanyProfile />} />
+          <Route path="/company-profile/:id" element={<CompanyProfile />} />
           <Route path="/coupons-page" element={<CouponsPage />} />
         </Routes>
       </Router>

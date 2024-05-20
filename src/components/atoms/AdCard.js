@@ -12,7 +12,7 @@ function AdCard({ id, ad }) {
           alt="ad image"
         />
 
-        <Link to="/company-profile" className="absolute bottom-0 flex p-3 bg-white rounded-tr-md items-center">
+        <Link to={`/company-profile/${ad.user.id}`} className="absolute bottom-0 flex p-3 bg-white rounded-tr-md items-center">
           <img
             className="object-cover object-center w-8 h-8 rounded-full border border-secondary"
             src={ad.user.image ?? placeholder}

@@ -3,24 +3,17 @@ import DropDownMenu from './DropDownMenu';
 import { useState } from "react";
 import Logo from '../images/logo.svg';
 import { useSelector } from "react-redux";
-import { useEffect } from 'react';
 
 const NavBar = () => {
-  const { user, token } = useSelector((state) => state.auth);
   const [dropDownMenu, setDropDownMenu] = useState(false);
 
+  const { user, token } = useSelector((state) => state.auth);
   const location = useLocation();
   const hideNavbar = location.pathname === '/login' || location.pathname === '/sign-up' || location.pathname === '/complete-register';
-
-  // useEffect(() => {
-  //   // Fetch user data on component mount or when token changes
-  //   // fetchUserData();
-  // }, [dispatch, token]);
 
   if (hideNavbar) {
     return null; // Return null to hide the navbar
   }
-
 
   return (
     <nav className="bg-white shadow-lg fixed top-0 w-full z-50">
@@ -113,13 +106,13 @@ const NavBar = () => {
                   >
                     <div className="cursor-pointer w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full" onClick={() => setDropDownMenu((prev) => !prev)}>
                       <img
-                        src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+                        src={user.image}
                         className="object-cover w-full h-full"
                         alt="avatar"
                       />
                     </div>
 
-                    <h3 className="mx-2 text-gray-700 lg:hidden">Khatab wedaa</h3>
+                    <h3 className="mx-2 text-gray-700 lg:hidden">{user.user_name}</h3>
                   </div>
                   {dropDownMenu && <DropDownMenu />}
                 </div>

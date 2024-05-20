@@ -6,38 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/authSlice";
 import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
-import apiEndpoints from "../redux/apiEndpoints";
-
 
 const LoginPage = () => {
-
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const { isLoading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const handleSignInClick = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(apiEndpoints.login, {
-        phone_number: phoneNumber,
-        password: password,
-      }, {
-        withCredentials: true,
-      });
-
-      const token = response.headers.Authorization;
-      // Handle token (e.g., store it in local storage or context)
-      console.log('Token:', token);
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
+  const handleSignInClick = () => {
+    dispatch(login({phone_number: phoneNumber, password: password}))
+    .unwrap()
+    .then((payload) => {
+        navigate(`/`);
+    })
+    .catch((error) => {})
   };
 
   return (
-    <div className="bg-white ">
+    <div className="bg-white">
       <div className="flex justify-center h-screen">
         <div
           className="hidden bg-cover lg:block lg:w-2/3"

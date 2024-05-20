@@ -3,13 +3,24 @@ const BASE_URL = 'https://dev.hashtag-mybusiness.com/api/v1';
 const endpoints = {
     // Auth
     login: `${BASE_URL}/login`,
+    logout: `${BASE_URL}/logout`,
     userSignUp: `${BASE_URL}/user_sign_up`,
+    // User
+    getUserProfile: `${BASE_URL}/get_user_profile`,
+    updateUserProfile: `${BASE_URL}/edit_user_profile`,
+    // Company
+    getCompanyById: `${BASE_URL}/get_company_by_id?id=`,
+    getCompanyAdsById: `${BASE_URL}/get_ads_by_company?id=`,
+    getCompanyBannerAdsById: `${BASE_URL}/get_banner_ads_by_company?id=`,
+
     // Categories
     getCategories: `${BASE_URL}/get_categories`,
     // Ads
     getPremiumAds: `${BASE_URL}/get_premium_ads`,
     getAdById: `${BASE_URL}/get_ad_by_id?id=`,
     getPremiumAdvertisers: `${BASE_URL}/get_premium_advertisers`,
+    // Notifications
+    getNotifications: `${BASE_URL}/get_notifications`,
 };
 
 export default endpoints;
