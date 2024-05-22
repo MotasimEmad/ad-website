@@ -7,11 +7,13 @@ import premiumAdvertisersSlice from "./premiumAdvertisersSlice";
 import userSlice from "./userSlice";
 import companySlice from "./companySlice";
 import notificationsSlice from "./notificationsSlice";
+import otpSlice from "./otpSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authSlice,
         user: userSlice,
+        otp: otpSlice,
         company: companySlice,
         category: categoriesSlice,
         premiumAd: premiumAdSlice,

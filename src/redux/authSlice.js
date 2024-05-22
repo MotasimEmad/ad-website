@@ -27,7 +27,6 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
   }
 });
 
-
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
@@ -53,6 +52,32 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   }
 });
 
+export const userSignUp = createAsyncThunk('auth/userSignUp', async (userData, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const response = await fetch(apiEndpoints.userSignUp, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return rejectWithValue(errorData);
+    }
+
+    const token = response.headers.get('Authorization');
+    const data = await response.json();
+    return { data, token };
+
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -70,7 +95,11 @@ const authSlice = createSlice({
 
       .addCase(logout.pending, setLoading)
       .addCase(logout.fulfilled, removeUserAndToken)
-      .addCase(logout.rejected, setError);
+      .addCase(logout.rejected, setError)
+
+      .addCase(userSignUp.pending, setLoading)
+      .addCase(userSignUp.fulfilled, removeUserAndToken)
+      .addCase(userSignUp.rejected, setError);
   },
 });
 
