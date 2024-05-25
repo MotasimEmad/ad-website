@@ -23,6 +23,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [OTPModal, setOTPModal] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSendOTPClick = () => {
     dispatch(OTPSend({ phone_number: `+971${phoneNumber}` }))
@@ -67,6 +68,40 @@ const SignUpPage = () => {
     setSelectedTabIndex(index);
   };
 
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    const filteredValue = value.replace(/0/g, '');
+    setPhoneNumber(filteredValue);
+  };
+
+  const handleUserNameChange = (e) => {
+    const value = e.target.value;
+    const filteredValue = value.replace(/\s/g, '');
+    setUserName(filteredValue);
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (value !== confirmPassword) {
+      setError('Passwords do not match');
+    } else {
+      setError('');
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+    if (password !== value) {
+      setError('Passwords do not match');
+    } else {
+      setError('');
+    }
+  };
+
+  const isDisabled = !userName || !password || !confirmPassword || password !== confirmPassword;
+
   return (
     <div className="bg-white">
       <div className="flex justify-center h-screen">
@@ -107,7 +142,7 @@ const SignUpPage = () => {
               </p>
             </div>
 
-            {OTPModal ? <OTPModalComponent phoneNumber={phoneNumber} userName={userName} password={password}/> :
+            {OTPModal ? <OTPModalComponent handleSendOTPClick={handleSendOTPClick} onClose={onClose} phoneNumber={phoneNumber} userName={userName} password={password}/> :
               <Tabs className="my-8" onSelect={handleTabSelect}>
                 <CustomTabList>
                   <Tab className={selectedTabIndex === 0 ? 'cursor-pointer w-full bg-secondary border-none text-white rounded-md px-6 py-2' : 'cursor-pointer w-full bg-transparent text-gray-500 rounded-md px-6 py-2'}>Individual Account</Tab>
@@ -130,7 +165,8 @@ const SignUpPage = () => {
                         </span>
 
                         <input
-                          value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }}
+                          value={phoneNumber}
+                          onChange={handlePhoneNumberChange}
                           type="number"
                           placeholder="000000000"
                           className="block w-full py-2.5 px-3 text-gray-700 placeholder-gray-400/70 bg-gray-100 border border-gray-200 rounded-lg pl-11 pr-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -157,7 +193,8 @@ const SignUpPage = () => {
                       </span>
 
                       <input
-                        value={userName} onChange={(e) => { setUserName(e.target.value) }}
+                        value={userName}
+                        onChange={handleUserNameChange}
                         type="text"
                         placeholder="User Name"
                         className="block w-full py-2.5 px-3 text-gray-700 placeholder-gray-400/70 bg-gray-100 border border-gray-200 rounded-lg pl-11 pr-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -173,7 +210,8 @@ const SignUpPage = () => {
                       </span>
 
                       <input
-                        value={password} onChange={(e) => { setPassword(e.target.value) }}
+                        value={password}
+                        onChange={handlePasswordChange}
                         type="password"
                         placeholder="Password"
                         className="block w-full py-2.5 px-3 text-gray-700 placeholder-gray-400/70 bg-gray-100 border border-gray-200 rounded-lg pl-11 pr-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -188,16 +226,19 @@ const SignUpPage = () => {
                       </span>
 
                       <input
-                        value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }}
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
                         type="password"
                         placeholder="Confirm Password"
                         className="block w-full py-2.5 px-3 text-gray-700 placeholder-gray-400/70 bg-gray-100 border border-gray-200 rounded-lg pl-11 pr-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                       />
                     </div>
 
+                    {error && <p className="text-start text-red-500 text-sm mt-2">{error}</p>}
+
                     <p class="mt-6 text-gray-500 text-start">
                       By clicking "Sign up" below, you acknowledge that you have read and
-                      understood, and agree to Our <a href="#" class="text-secondary"> Term & Conditions</a>
+                      understood, and agree to Our <a href="#" class="text-secondary"> Term & Conditions </a>
                       and <a href="#" class="text-secondary"> Privacy Policy.</a>
                     </p>
                     <div className="mt-6 flex justify-end text-center">
@@ -206,7 +247,7 @@ const SignUpPage = () => {
                           Loadin ...
                         </button>
                         :
-                        <button onClick={handleSendOTPClick} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
+                        <button disabled={isDisabled} onClick={handleSendOTPClick} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
                           Sign up
                         </button>
                       }

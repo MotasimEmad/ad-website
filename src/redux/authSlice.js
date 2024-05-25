@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiEndpoints from "./apiEndpoints";
 
+
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
   const { rejectWithValue } = thunkAPI;
   try {
@@ -20,10 +21,14 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 
     const token = response.headers.get('Authorization');
     const data = await response.json();
+    if (data.status !== 200) {
+      return rejectWithValue(data);
+    }
+
     return { data, token };
 
   } catch (error) {
-    return rejectWithValue(error);
+    return rejectWithValue(error.message);
   }
 });
 
@@ -98,7 +103,7 @@ const authSlice = createSlice({
       .addCase(logout.rejected, setError)
 
       .addCase(userSignUp.pending, setLoading)
-      .addCase(userSignUp.fulfilled, removeUserAndToken)
+      .addCase(userSignUp.fulfilled, setUserAndToken)
       .addCase(userSignUp.rejected, setError);
   },
 });
@@ -129,9 +134,9 @@ const removeUserAndToken = (state, action) => {
 
 const setError = (state, action) => {
   state.isLoading = false;
-  state.error = action.payload.error;
+  state.error = action.payload.error.message;
 };
 
-export const {} = authSlice.actions; // Destructure any actions if needed
+export const {} = authSlice.actions;
 
 export default authSlice.reducer;

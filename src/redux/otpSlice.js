@@ -40,7 +40,7 @@ export const OTPVerify = createAsyncThunk('user/OTPVerify', async (OTPData, thun
     }
 
     const data = await response.json();
-    if (data.status !== 200) {
+    if (data.status !== 201) {
       return rejectWithValue(data);
     }
 
@@ -65,7 +65,7 @@ const otpSlice = createSlice({
           })
           .addCase(OTPSend.rejected, (state, action) => {
               state.isLoadingotp = false;
-              state.errorOTP = action.payload;
+              state.errorOTP = action.payload.error.message;
           })
 
 
@@ -78,7 +78,7 @@ const otpSlice = createSlice({
         })
         .addCase(OTPVerify.rejected, (state, action) => {
             state.isLoadingotp = false;
-            state.errorOTP = action.payload.errorOTP;
+            state.errorOTP = action.payload.error.message;
         });
   }
 });

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/authSlice";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const LoginPage = () => {
@@ -20,11 +22,16 @@ const LoginPage = () => {
     .then((payload) => {
         navigate(`/`);
     })
-    .catch((error) => {})
+    .catch((catch_error) => {
+      toast.error(error, {
+        position: "top-right",
+      });
+    })
   };
 
   return (
     <div className="bg-white">
+      <div className="text-start"><ToastContainer /></div>
       <div className="flex justify-center h-screen">
         <div
           className="hidden bg-cover lg:block lg:w-2/3"
