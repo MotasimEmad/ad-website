@@ -5,8 +5,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { OTPVerify } from '../redux/otpSlice';
 import { useState, useRef  } from 'react';
+import CompanyCompleteRegister from '../pages/CompanyCompleteRegister';
 
-const OTPModalComponent = ({ handleSendOTPClick, onClose, phoneNumber, userName, password }) => {
+const OTPModalComponent = ({ handleReSendOTPClick, onClose, phoneNumber, userName, password }) => {
     const handleClose = () => {
         onClose();
     };
@@ -74,7 +75,39 @@ const OTPModalComponent = ({ handleSendOTPClick, onClose, phoneNumber, userName,
             });
     };
 
-    const allInputsFilled = OTPInputs.every(input => input.length > 0);
+    const handleCompanyVerifyOTPClick = (event) => {
+        event.preventDefault();
+
+        const OTPCode = OTPInputs.join('');
+        if (OTPCode.length !== 4) {
+            toast.error('Please enter all 4 digits of the OTP', {
+                position: 'top-right',
+            });
+            return;
+        }
+
+        dispatch(OTPVerify({ phone_number: `+971${phoneNumber}`, code: OTPCode }))
+            .unwrap()
+            .then((payload) => {
+                // User verification successful
+                toast.success('Verification successful', {
+                    position: 'top-right',
+                });
+                navigate('/complete-register', { state: { phoneNumber: `+971${phoneNumber}` } });
+            })
+            .catch((error) => {
+                toast.error('OTP verification failed. Please try again.', {
+                    position: 'top-right',
+                });
+                // handleClose(); // Close the modal on verification error (optional)
+            });
+    };
+
+    const companyRegister = !userName && !password;
+    const allInputsFilled = true;
+    if (!companyRegister) {
+        allInputsFilled = OTPInputs.every(input => input.length > 0);
+    }
 
     return (
         <div className="max-w-md mx-auto text-center bg-white px-4 sm:px-8 py-10 rounded-xl shadow">
@@ -98,14 +131,14 @@ const OTPModalComponent = ({ handleSendOTPClick, onClose, phoneNumber, userName,
                     ))}
                 </div>
                 <div className="max-w-[260px] mx-auto mt-4">
-                    <button onClick={handleVerifyOTPClick}
+                    <button onClick={companyRegister ? handleCompanyVerifyOTPClick : handleVerifyOTPClick}
                             disabled={!allInputsFilled}
                         className="w-full inline-flex justify-center whitespace-nowrap rounded-lg bg-secondary px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 focus:outline-none focus:ring focus-visible:outline-none focus-visible:ring transition-colors duration-150">
                         Verify Account
                     </button>
                 </div>
             </form>
-            <div className="text-sm text-slate-500 mt-4">Didn't receive code? <button onClick={handleSendOTPClick} className="font-medium text-secondary" href="#0">Resend</button></div>
+            <div className="text-sm text-slate-500 mt-4">Didn't receive code? <button onClick={handleReSendOTPClick} className="font-medium text-secondary" href="#0">Resend</button></div>
         </div>
     );
 };

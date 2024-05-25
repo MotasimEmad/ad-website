@@ -83,6 +83,35 @@ export const userSignUp = createAsyncThunk('auth/userSignUp', async (userData, t
   }
 });
 
+export const companySignUp = createAsyncThunk('auth/companySignUp', async (userData, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const response = await fetch(apiEndpoints.companySignUp, {
+      method: 'POST',
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: userData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return rejectWithValue(errorData);
+    }
+
+    const data = await response.json();
+    if (data.status !== 200) {
+      return rejectWithValue(data);
+    }
+
+    const token = response.headers.get('Authorization');
+    return { data, token };
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -104,7 +133,11 @@ const authSlice = createSlice({
 
       .addCase(userSignUp.pending, setLoading)
       .addCase(userSignUp.fulfilled, setUserAndToken)
-      .addCase(userSignUp.rejected, setError);
+      .addCase(userSignUp.rejected, setError)
+
+      .addCase(companySignUp.pending, setLoading)
+      .addCase(companySignUp.fulfilled, setUserAndToken)
+      .addCase(companySignUp.rejected, setError);
   },
 });
 

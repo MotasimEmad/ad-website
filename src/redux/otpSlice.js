@@ -14,6 +14,9 @@ export const OTPSend = createAsyncThunk('user/OTPSend', async (OTPData, thunkAPI
       body: JSON.stringify(OTPData),
     });
     const data = await response.json();
+    if (data.status !== 201) {
+      return rejectWithValue(data);
+    }
 
     return data;
   } catch (errorOTP) {
@@ -40,7 +43,7 @@ export const OTPVerify = createAsyncThunk('user/OTPVerify', async (OTPData, thun
     }
 
     const data = await response.json();
-    if (data.status !== 201) {
+    if (data.status !== 200) {
       return rejectWithValue(data);
     }
 

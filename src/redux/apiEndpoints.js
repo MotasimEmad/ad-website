@@ -5,6 +5,7 @@ const endpoints = {
     login: `${BASE_URL}/login`,
     logout: `${BASE_URL}/logout`,
     userSignUp: `${BASE_URL}/user_sign_up`,
+    companySignUp: `${BASE_URL}/company_sign_up`,
     // OTP
     otpSend: `${BASE_URL}/send_otp`,
     otpVerify: `${BASE_URL}/verify_otp`,

@@ -30,7 +30,22 @@ const SignUpPage = () => {
       .unwrap()
       .then((payload) => {
         setOTPModal(prev => !prev);
-        toast.success('success', {
+        toast.success('OTP Code has been sent successfully', {
+          position: "top-right"
+        });
+      })
+      .catch((catch_error) => {
+        toast.error(errorOTP.message, {
+          position: "top-right"
+        });
+      })
+  };
+
+  const handleReSendOTPClick = () => {
+    dispatch(OTPSend({ phone_number: `+971${phoneNumber}` }))
+      .unwrap()
+      .then((payload) => {
+        toast.success('OTP Code has been sent successfully', {
           position: "top-right"
         });
       })
@@ -142,7 +157,7 @@ const SignUpPage = () => {
               </p>
             </div>
 
-            {OTPModal ? <OTPModalComponent handleSendOTPClick={handleSendOTPClick} onClose={onClose} phoneNumber={phoneNumber} userName={userName} password={password}/> :
+            {OTPModal ? <OTPModalComponent handleReSendOTPClick={handleReSendOTPClick} onClose={onClose} phoneNumber={phoneNumber} userName={userName} password={password}/> :
               <Tabs className="my-8" onSelect={handleTabSelect}>
                 <CustomTabList>
                   <Tab className={selectedTabIndex === 0 ? 'cursor-pointer w-full bg-secondary border-none text-white rounded-md px-6 py-2' : 'cursor-pointer w-full bg-transparent text-gray-500 rounded-md px-6 py-2'}>Individual Account</Tab>
@@ -280,7 +295,9 @@ const SignUpPage = () => {
                         </span>
 
                         <input
-                          type="text"
+                          value={phoneNumber}
+                          onChange={handlePhoneNumberChange}
+                          type="number"
                           placeholder="000000000"
                           className="block w-full py-2.5 px-3 text-gray-700 placeholder-gray-400/70 bg-gray-100 border border-gray-200 rounded-lg pl-11 pr-5 focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />
@@ -289,11 +306,11 @@ const SignUpPage = () => {
 
                     <p class="mt-6 text-gray-500 text-start">
                       By clicking "Sign up" below, you acknowledge that you have read and
-                      understood, and agree to Our <a href="#" class="text-secondary"> Term & Conditions</a>
+                      understood, and agree to Our <a href="#" class="text-secondary"> Term & Conditions </a>
                       and <a href="#" class="text-secondary"> Privacy Policy.</a>
                     </p>
                     <div className="mt-6 flex justify-end text-center">
-                      <button onClick={toggleOTPModal} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
+                      <button onClick={handleSendOTPClick} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
                         Sign up
                       </button>
                     </div>
