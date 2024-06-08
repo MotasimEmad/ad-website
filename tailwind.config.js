@@ -7,7 +7,8 @@ module.exports = withMT({
   ],
   theme: {
     fontFamily: {
-      'ubuntu': '"Ubuntu"'
+      'ubuntu': '"Ubuntu"',
+      'cairo': '"Cairo"'
     },
     extend: {
       colors: {

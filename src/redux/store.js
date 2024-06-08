@@ -25,6 +25,6 @@ export const store = configureStore({
         premiumAdvertisers: premiumAdvertisersSlice,
         newlyAddedAd: newlyAddedAdSlice,
         mostRatedAd: mostRatedAdSlice,
-        notifictaion: notificationsSlice,
+        notifications: notificationsSlice,
     }
 });

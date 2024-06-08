@@ -2,6 +2,7 @@ import PremiumAdvertiserCard from "./atoms/PremiumAdvertiserCard";
 import React, { useEffect } from 'react';
 import { getPremiumAdvertisers } from '../redux/premiumAdvertisersSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import LoadingFeaturedAdverisers from "./atoms/LoadingFeaturedAdverisers";
 
 const FeaturedAdverisers = () => {
   const { isLoading, premiumAdvertisers } = useSelector((state) => state.premiumAdvertisers);
@@ -15,7 +16,8 @@ const FeaturedAdverisers = () => {
   ));
 
   return (
-    <section className="bg-white mt-28">
+    <section>
+      {isLoading ? <LoadingFeaturedAdverisers /> :  <section className="bg-white mt-28">
       <div className="container px-6 py-10 mx-auto">
         <div className="text-center">
           <div class="mx-auto text-center md:max-w-xl lg:max-w-3xl">
@@ -32,7 +34,9 @@ const FeaturedAdverisers = () => {
         {isLoading ? "Loading ..." : premiumAdvertisersList}
         </div>
       </div>
+    </section>}
     </section>
+   
   );
 };
 

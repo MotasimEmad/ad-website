@@ -13,7 +13,7 @@ import SignUpPage from './pages/SignUpPage';
 import CompanyCompleteRegister from './pages/CompanyCompleteRegister';
 import OurApp from './pages/OurApp';
 import ForgetPasswordPage from './pages/ForgetPasswordPage';
-import NotificatioPage from './pages/NotificationPage';
+import NotificationPage from './pages/NotificationPage';
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
           <Route path="/company-profile/:id" element={<CompanyProfile />} />
           <Route path="/coupons-page" element={<CouponsPage />} />
 
-          <Route path="/notifications" element={<NotificatioPage />} />
+          <Route path="/notifications" element={<NotificationPage />} />
         </Routes>
       </Router>
 

@@ -68,8 +68,9 @@ const HomePage = () => {
           </div>
         </div>
       )}
-      <NewlyAddedAds />
+
       <FeaturedAdverisers />
+      <NewlyAddedAds />
       <MostRatedAds />
     </section>
   );

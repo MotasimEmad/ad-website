@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AdCard from './atoms/AdCard';
 import { getMostRatedAds } from '../redux/mostRatedAdSlice';
+import LoadingAds from './atoms/LoadingAds';
 
 const MostRatedAds = () => {
   const { isLoading, ads } = useSelector((state) => state.mostRatedAd);
@@ -15,7 +16,8 @@ const MostRatedAds = () => {
   ));
   
   return (
-    <section className="bg-white mt-24">
+    <section>
+      {isLoading ? <LoadingAds /> : <section className="bg-white mt-24">
       <div className="container px-6 py-10 mx-auto">
         <div className="text-center">
           <div class="mx-auto text-center md:max-w-xl lg:max-w-3xl">
@@ -32,6 +34,7 @@ const MostRatedAds = () => {
         {isLoading ? "Loading ..." : adsList}
         </div>
       </div>
+    </section>}
     </section>
   );
 };

@@ -1,25 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from 'react';
-import { getNotifications } from "../redux/notificationsSlice";
 import NotificationCard from "../components/NotificationCard";
+import { getNotifications } from "../redux/notificationsSlice";
 
-const NotificatioPage = () => {
-  const { isLoading, notifications, error } = useSelector((state) => state.notification);
+const NotificationPage = () => {
+  const { notifications, isLoading } = useSelector((state) => state.notifications);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getNotifications());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
+
+
   const notificatrionsList = notifications.map((notification) => (
-    // <NotificationCard key={notification.id} id={notification.id} notification={notification} />
-    <p>jhjhjhjhjhjhjhjh</p>
+    <NotificationCard key={notification.id} id={notification.id} notification={notification} />
   ));
 
   return (
-    <section>
-      {}
+    <section className="w-full h-96">
+      {isLoading ? <p className="text-black">Loading ...</p> : notificatrionsList}
     </section>
   );
 };
 
-export default NotificatioPage;
+export default NotificationPage;

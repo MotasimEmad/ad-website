@@ -4,7 +4,13 @@ import apiEndpoints from "./apiEndpoints";
 export const getNotifications = createAsyncThunk('notification/getNotifications', async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-        const response = await fetch(apiEndpoints.getNotifications);
+        const response = await fetch(apiEndpoints.getNotifications, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -24,7 +30,8 @@ const notificationsSlice = createSlice({
             })
             .addCase(getNotifications.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.categories = action.payload.data.notifications;
+                console.log(action.payload.data.notifications);
+                state.notifications = action.payload.data.notifications;
             })
             .addCase(getNotifications.rejected, (state, action) => {
                 state.isLoading = false;
