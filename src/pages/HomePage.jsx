@@ -1,9 +1,11 @@
 import Categories from "../components/Categories";
 import FeaturedAds from "../components/FeaturedAds";
+import NewlyAddedAds from "../components/NewlyAddedAds";
 import FeaturedAdverisers from "../components/FeaturedAdverisers";
 import Header from "../components/Header";
 
 import React, { useState, useEffect } from 'react';
+import MostRatedAds from "../components/MosRatedAds";
 
 async function fetchPremiumBanners() {
   try {
@@ -66,8 +68,9 @@ const HomePage = () => {
           </div>
         </div>
       )}
-
+      <NewlyAddedAds />
       <FeaturedAdverisers />
+      <MostRatedAds />
     </section>
   );
 };

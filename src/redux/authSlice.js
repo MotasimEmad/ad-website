@@ -14,17 +14,13 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
       body: JSON.stringify(userData),
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       const errorData = await response.json();
       return rejectWithValue(errorData);
     }
 
     const token = response.headers.get('Authorization');
     const data = await response.json();
-    if (data.status !== 200) {
-      return rejectWithValue(data);
-    }
-
     return { data, token };
 
   } catch (error) {
@@ -69,7 +65,7 @@ export const userSignUp = createAsyncThunk('auth/userSignUp', async (userData, t
       body: JSON.stringify(userData),
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       const errorData = await response.json();
       return rejectWithValue(errorData);
     }
@@ -95,16 +91,12 @@ export const companySignUp = createAsyncThunk('auth/companySignUp', async (userD
       body: userData,
     });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       const errorData = await response.json();
       return rejectWithValue(errorData);
     }
 
     const data = await response.json();
-    if (data.status !== 200) {
-      return rejectWithValue(data);
-    }
-
     const token = response.headers.get('Authorization');
     return { data, token };
   } catch (error) {
@@ -169,7 +161,6 @@ const setError = (state, action) => {
   state.isLoading = false;
   state.error = action.payload.error.message;
 };
-
 export const {} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -12,6 +12,8 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import CompanyCompleteRegister from './pages/CompanyCompleteRegister';
 import OurApp from './pages/OurApp';
+import ForgetPasswordPage from './pages/ForgetPasswordPage';
+import NotificatioPage from './pages/NotificationPage';
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/complete-register" element={<CompanyCompleteRegister />} />
 
           <Route path="/" element={<HomePage />} />
@@ -31,6 +34,8 @@ function App() {
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/company-profile/:id" element={<CompanyProfile />} />
           <Route path="/coupons-page" element={<CouponsPage />} />
+
+          <Route path="/notifications" element={<NotificatioPage />} />
         </Routes>
       </Router>
 

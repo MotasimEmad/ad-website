@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiEndpoints from "./apiEndpoints";
 
-export const getNotifications = createAsyncThunk('notification/getNotifications', async (_, thunkAPI) => {
+export const getNewlyAddedAds = createAsyncThunk('newlyAddedAd/getNewlyAddedAds', async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-        const response = await fetch(apiEndpoints.getNotifications);
+        const response = await fetch(apiEndpoints.getNewlyAddedAds);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -12,25 +12,25 @@ export const getNotifications = createAsyncThunk('notification/getNotifications'
     }
 });
 
-const notificationsSlice = createSlice({
-    name: "notification",
-    initialState: { notifications: [], isLoading: false, error: null },
+const newlyAddedAdSlice = createSlice({
+    name: "getNewlyAddedAds",
+    initialState: { ads: [], isLoading: false, error: null },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getNotifications.pending, (state, action) => {
+            .addCase(getNewlyAddedAds.pending, (state, action) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(getNotifications.fulfilled, (state, action) => {
+            .addCase(getNewlyAddedAds.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.categories = action.payload.data.notifications;
+                state.ads = action.payload.data;
             })
-            .addCase(getNotifications.rejected, (state, action) => {
+            .addCase(getNewlyAddedAds.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });
     }
 });
 
-export default notificationsSlice.reducer;
+export default newlyAddedAdSlice.reducer;

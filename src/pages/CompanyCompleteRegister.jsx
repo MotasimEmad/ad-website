@@ -25,6 +25,7 @@ const CompanyCompleteRegister = () => {
   
 
   const { isLoading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const location = useLocation();
   const phoneNumber = location.state?.phoneNumber;
@@ -44,12 +45,10 @@ const CompanyCompleteRegister = () => {
     dispatch(companySignUp(formData))
       .unwrap()
       .then((payload) => {
-        toast.success('OTP Code has been sent successfully', {
-          position: "top-right"
-        });
+        navigate(`/`);
       })
       .catch((catch_error) => {
-        toast.error(error, {
+        toast.error(error || "An error occurred", {
           position: "top-right"
         });
       })
@@ -188,12 +187,17 @@ const CompanyCompleteRegister = () => {
                 </p>
 
                 <div className="mt-6 flex justify-end text-center">
-                  <button
+                  {isLoading ? <button
+                   disabled
+                    className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50"
+                  >
+                    Loading ...
+                  </button> : <button
                    onClick={handleSignUpClick}
                     className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50"
                   >
                     Sign up
-                  </button>
+                  </button>}
                 </div>
               </div>
             </div>

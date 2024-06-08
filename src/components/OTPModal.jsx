@@ -90,10 +90,11 @@ const OTPModalComponent = ({ handleReSendOTPClick, onClose, phoneNumber, userNam
             .unwrap()
             .then((payload) => {
                 // User verification successful
+                navigate('/complete-register', { state: { phoneNumber: phoneNumber } });
+
                 toast.success('Verification successful', {
                     position: 'top-right',
                 });
-                navigate('/complete-register', { state: { phoneNumber: `+971${phoneNumber}` } });
             })
             .catch((error) => {
                 toast.error('OTP verification failed. Please try again.', {

@@ -13,11 +13,14 @@ export const OTPSend = createAsyncThunk('user/OTPSend', async (OTPData, thunkAPI
       },
       body: JSON.stringify(OTPData),
     });
-    const data = await response.json();
-    if (data.status !== 201) {
-      return rejectWithValue(data);
-    }
 
+    // if (response.status !== 200) {
+    //   const errorData = await response.json();
+    //   return rejectWithValue(errorData);
+    // }
+
+    const data = await response.json();
+  
     return data;
   } catch (errorOTP) {
       return rejectWithValue(errorOTP.message);
@@ -36,11 +39,6 @@ export const OTPVerify = createAsyncThunk('user/OTPVerify', async (OTPData, thun
       },
       body: JSON.stringify(OTPData),
     });
-
-    if (!response.ok) {
-      const errorOTPData = await response.json();
-      return rejectWithValue(errorOTPData);
-    }
 
     const data = await response.json();
     if (data.status !== 200) {

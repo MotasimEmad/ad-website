@@ -3,13 +3,14 @@ import DropDownMenu from './DropDownMenu';
 import { useState } from "react";
 import Logo from '../images/logo.svg';
 import { useSelector } from "react-redux";
+import placeholder from '../images/placeholder.jpg';
 
 const NavBar = () => {
   const [dropDownMenu, setDropDownMenu] = useState(false);
 
   const { user, token } = useSelector((state) => state.auth);
   const location = useLocation();
-  const hideNavbar = location.pathname === '/login' || location.pathname === '/sign-up' || location.pathname === '/complete-register';
+  const hideNavbar = location.pathname === '/login' || location.pathname === '/sign-up' || location.pathname === '/complete-register' || location.pathname === '/forget-password';
 
   if (hideNavbar) {
     return null; // Return null to hide the navbar
@@ -77,7 +78,8 @@ const NavBar = () => {
 
           <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
             <div className="flex items-center mt-4 lg:mt-0">
-              <button
+              
+            <Link to="/notifications"
                 className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block hover:text-gray-700 focus:text-gray-700 focus:outline-none"
                 aria-label="show notifications"
               >
@@ -95,7 +97,7 @@ const NavBar = () => {
                     stroke-linejoin="round"
                   />
                 </svg>
-              </button>
+              </Link>
 
               {token ?
                 <div>
@@ -106,7 +108,7 @@ const NavBar = () => {
                   >
                     <div className="cursor-pointer w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full" onClick={() => setDropDownMenu((prev) => !prev)}>
                       <img
-                        src={user.image}
+                        src={user.image ?? placeholder}
                         className="object-cover w-full h-full"
                         alt="avatar"
                       />

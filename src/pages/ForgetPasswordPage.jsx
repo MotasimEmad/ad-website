@@ -1,32 +1,30 @@
-import { Link } from 'react-router-dom';
 import Logo from '../images/logo.svg';
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/authSlice";
+import { forgetPassword } from "../redux/passwordSlice";
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const LoginPage = () => {
+const ForgetPasswordPage = () => {
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const { isLoading, error } = useSelector((state) => state.auth);
+  const { isLoading, error } = useSelector((state) => state.password);
   const navigate = useNavigate();
 
-  const handleSignInClick = () => {
-    dispatch(login({ phone_number: phoneNumber, password: password }))
-      .unwrap()
-      .then((payload) => {
-        navigate(`/`);
-      })
-      .catch(() => {
-        toast.error(error || 'An error occurred', {
-          position: "top-right",
-        });
-      })
+  const handleSendForgetPasswordLinkClick = () => {
+    dispatch(forgetPassword({phone_number: `+971${phoneNumber}`}))
+    .unwrap()
+    .then((payload) => {
+        navigate(`/login`);
+    })
+    .catch(() => {
+      toast.error(error || 'An error occurred', {
+        position: "top-right",
+      });
+    })
   };
 
   return (
@@ -66,7 +64,7 @@ const LoginPage = () => {
               </div>
 
               <p className="mt-3 text-gray-500">
-                Sign in to access your account
+                Reset your password
               </p>
             </div>
 
@@ -87,55 +85,19 @@ const LoginPage = () => {
                   />
                 </div>
 
-                <div className="mt-6">
-                  <div className="flex justify-between mb-2">
-                    <label
-                      for="password"
-                      className="text-sm text-gray-600 "
-                    >
-                      Password
-                    </label>
-                    <Link
-                      to="/forget-password"
-                      className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
-                    >
-                      Forgot password ?
-                    </Link>
-
-                  </div>
-
-                  <input
-                    id="password"
-                    placeholder="Your Password"
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-gray-100 border border-gray-200 rounded-lg focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                    type="password"
-                    value={password} onChange={(e) => { setPassword(e.target.value) }}
-                  />
-                </div>
-
+            
                 <div className="mt-6 flex justify-end text-center">
                   {isLoading ?
                     <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50" disabled>
                       Loading ...
                     </button>
                     :
-                    <button onClick={handleSignInClick} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
-                      Sign in
+                    <button onClick={handleSendForgetPasswordLinkClick} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-secondary rounded-lg focus:ring-opacity-50">
+                      Send code
                     </button>
                   }
                 </div>
               </div>
-
-              <p className="mt-6 text-sm text-center text-gray-400">
-                Don&#x27;t have an account yet?{" "}
-                <Link
-                  to="/sign-up"
-                  className="text-blue-500 focus:outline-none focus:underline hover:underline"
-                >
-                  Sign up
-                </Link>
-                .
-              </p>
             </div>
           </div>
         </div>
@@ -144,4 +106,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgetPasswordPage;
