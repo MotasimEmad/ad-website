@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import placeholder from '../images/placeholder.jpg';
 import StarRating from "../components/StarRating";
 import { formatDate } from "../components/DateUtils";
+import LoadingAdDetails from "../components/atoms/LoadingAdDetails";
 
 const AdDetailsPage = () => {
   const { id } = useParams();
@@ -30,6 +31,14 @@ const AdDetailsPage = () => {
   const initialImages = ad.media || []; // Ensure ad.media is initialized as an array
   const [images, setImages] = useState(initialImages);
 
+  useEffect(() => {
+    if (ad.media) {
+      setImages(ad.media);
+    }
+  }, [ad.media]);
+
+  console.log(images);
+
   const handleClick = (index) => {
     const newImages = [...images];
     const clickedImage = newImages.splice(index, 1);
@@ -43,7 +52,7 @@ const AdDetailsPage = () => {
   return (
     <section>
       {isLoading ? (
-        <div>Loading...</div>
+        <LoadingAdDetails />
       ) :
         <div className="font-sans pt-20">
           <div className="p-6 mx-auto">
