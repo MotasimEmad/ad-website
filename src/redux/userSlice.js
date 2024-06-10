@@ -76,7 +76,7 @@ const userSlice = createSlice({
         })
         .addCase(updateUserProfile.rejected, (state, action) => {
             state.isUpdaingLoading = false;
-            state.updateError = action.payload.error;
+            state.updateError = action.payload.error.message;
         });
   }
 });

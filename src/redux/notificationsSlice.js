@@ -20,7 +20,7 @@ export const getNotifications = createAsyncThunk('notification/getNotifications'
 
 const notificationsSlice = createSlice({
     name: "notification",
-    initialState: { notifications: [], isLoading: false, error: null },
+    initialState: { notifications: [], unread_count: 0,isLoading: false, error: null },
     reducers: {},
     extraReducers: (builder) => {
         builder
@@ -30,8 +30,8 @@ const notificationsSlice = createSlice({
             })
             .addCase(getNotifications.fulfilled, (state, action) => {
                 state.isLoading = false;
-                console.log(action.payload.data.notifications);
                 state.notifications = action.payload.data.notifications;
+                state.unread_count = action.payload.data.unread_count;
             })
             .addCase(getNotifications.rejected, (state, action) => {
                 state.isLoading = false;

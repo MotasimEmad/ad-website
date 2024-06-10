@@ -21,7 +21,7 @@ const NotificationPage = () => {
   ));
 
   return (
-    <section className="w-full h-96">
+    <section className="w-full">
       {isLoading ? <p className="text-black">Loading ...</p> : notificatrionsList}
     </section>
   );

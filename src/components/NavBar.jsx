@@ -9,6 +9,7 @@ const NavBar = () => {
   const [dropDownMenu, setDropDownMenu] = useState(false);
 
   const { user, token } = useSelector((state) => state.auth);
+  const { unread_count } = useSelector((state) => state.notifications);
   const location = useLocation();
   const hideNavbar = location.pathname === '/login' || location.pathname === '/sign-up' || location.pathname === '/complete-register' || location.pathname === '/forget-password';
 
@@ -78,9 +79,9 @@ const NavBar = () => {
 
           <div className="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center">
             <div className="flex items-center mt-4 lg:mt-0">
-              
-            <Link to="/notifications"
-                className="hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block hover:text-gray-700 focus:text-gray-700 focus:outline-none"
+
+              <Link to="/notifications"
+                className="relative hidden mx-4 text-gray-600 transition-colors duration-300 transform lg:block hover:text-gray-700 focus:text-gray-700 focus:outline-none"
                 aria-label="show notifications"
               >
                 <svg
@@ -97,7 +98,13 @@ const NavBar = () => {
                     stroke-linejoin="round"
                   />
                 </svg>
+                {unread_count > 1 &&
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
+                  {unread_count}
+                </span>
+                }
               </Link>
+
 
               {token ?
                 <div>
